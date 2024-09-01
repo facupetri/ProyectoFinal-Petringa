@@ -1,0 +1,22 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+
+{% block title %} Registro {% endblock title %}
+
+{% block titular %} Crear Usuario {% endblock titular %}
+
+{% block body %}
+
+<div class="d-flex justify-content-center" style="">
+    <div class="d-flex flex column">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Registrarse" style="border-square: 50px; margin: 5px;" >  
+        </form>
+    </div>
+</div>
+
+{% endblock body %}
+{% block cuadros %}{% endblock cuadros %}

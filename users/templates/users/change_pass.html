@@ -1,0 +1,22 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+
+{% block title %} Cambiar Contrasena {% endblock title %}
+{% block titular %} Cambiar Contrasena {% endblock titular %}
+
+{% block body %}
+<div class="d-flex justify-content-center" style="">
+    <div class="d-flex flex column">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+                <input type="submit" value="Guardar cambios" style="border-square: 50px; margin: 5px;"> 
+        </form>
+    </div>
+</div>
+{% endblock body %}
+
+{% block cuadros %}{% endblock cuadros %}

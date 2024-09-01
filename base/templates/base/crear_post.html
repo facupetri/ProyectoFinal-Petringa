@@ -1,0 +1,25 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+
+{% block title %} Crear Post {% endblock title %}
+{% block titular %} Crear Post {% endblock titular %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-center" style="">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <fieldset>
+                <legend></legend>
+                <div>
+                    {{ form.as_p }}
+                </div>
+                <button type="submit">Guardar</button>
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock body %}
+
+{% block cuadros %}{% endblock cuadros %}

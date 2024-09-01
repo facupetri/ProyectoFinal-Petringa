@@ -1,0 +1,23 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+
+{% block title %} Iniciar Sesion {% endblock title %}
+
+{% block titular %} Iniciar Sesion {% endblock titular %}
+    
+
+{% block body %}
+<div class="d-flex justify-content-center" style="">
+    <div class="d-flex flex column">
+        <p class="fs-5 fw-bold"> {{ msg_login }}</p>
+            <form action="" method="POST">
+            {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Iniciar sesion" style="border-square: 50px; margin: 5px;"> 
+        </form>
+    </div>
+</div>
+{% endblock body %}
+
+{% block cuadros %}{% endblock cuadros %}
