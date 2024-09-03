@@ -37,6 +37,11 @@
                     <a href="{% url 'change_pass' %}" class="btn btn-outline-warning w-100 mb-2">Cambiar Contraseña</a>
                 </li>
                 <li class="list-group-item">
+                {% if user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-warning w-100 mb-2">Panel de Administración</a>
+                {% endif %}
+                </li>
+                <li class="list-group-item">
                     <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100">Cerrar Sesión</a>
                 </li>
             </ul>

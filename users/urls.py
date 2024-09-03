@@ -11,6 +11,8 @@ urlpatterns = [
     path('edit-user/', UserEditView.as_view(), name='edit_user'),
     path('change-pass/', CambiarContrasena.as_view(), name='change_pass'),
     path('dashboard/', UserDashboardView.as_view(), name='user_dashboard'),
+    path('admin_dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
     path('admin/edit-user/<int:pk>/', AdminUserEditView.as_view(), name='admin_edit_user'),
     path('admin/delete-user/<int:pk>/', AdminUserDeleteView.as_view(), name='admin_delete_user'),
+    path('perfil/<str:username>/', UserProfileView.as_view(), name='perfil_usuario'),
 ]

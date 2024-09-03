@@ -1,3 +1,5 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -87,30 +89,6 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class AdminUserEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = User
-    form_class = AdminUserEditForm
-    template_name = 'users/admin_edit_user.html'
-    success_url = reverse_lazy('user_dashboard')
-
-    def test_func(self):
-        return self.request.user.is_superuser
-
-
-class AdminUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = User
-    template_name = 'users/admin_confirm_delete.html'
-    success_url = reverse_lazy('user_dashboard')
-
-    def test_func(self):
-        return self.request.user.is_superuser
-
-    def get_success_url(self):
-        if self.request.user.pk == self.object.pk:
-            return reverse_lazy('logout')
-        return super().get_success_url()
-
-
 class CambiarContrasena(LoginRequiredMixin, PasswordChangeView):
     template_name = 'users/change_pass.html'
     success_url = reverse_lazy('user_dashboard')
@@ -123,3 +101,73 @@ class CambiarContrasena(LoginRequiredMixin, PasswordChangeView):
         messages.error(self.request, 'Hubo un error al cambiar tu contraseña. Por favor, intenta nuevamente.')
         return super().form_invalid(form)
 
+
+class UserProfileView(LoginRequiredMixin, View):
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+
+        if user == request.user:
+            return redirect('user_dashboard')
+        else:
+            avatar = Avatar.objects.filter(user=user).first()
+            context = {
+                'user_profile': user,
+                'avatar': avatar,
+            }
+            return render(request, 'users/profile.html', context)
+        
+
+class AdminDashboardView(TemplateView):
+    template_name = 'users/admin_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_usuarios'] = User.objects.count()
+        context['total_posteos'] = Post.objects.count()
+        context['usuarios_recientes'] = User.objects.order_by('-date_joined')[:5]
+        context['posts_recientes'] = Post.objects.order_by('-fecha_creacion')[:5]
+        return context
+
+
+class AdminUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'users/admin_confirm_delete.html'
+    success_url = reverse_lazy('user_dashboard')
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+    def get_success_url(self):
+        if self.request.user.pk == self.object.pk:
+            return reverse_lazy('logout')
+        return super().get_success_url()
+
+
+class AdminUserEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = User
+    form_class = AdminUserEditForm
+    template_name = 'users/admin_edit_user.html'
+    success_url = reverse_lazy('user_dashboard')
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+
+class AdminPostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['titulo', 'subtitulo', 'posteo', 'imagen']
+    template_name = 'base/edit_post.html'
+    success_url = reverse_lazy('admin_dashboard')
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+
+class AdminPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'base/delete_post.html'
+    success_url = reverse_lazy('admin_dashboard')  
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser

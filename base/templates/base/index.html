@@ -18,7 +18,7 @@
                         <p class="card-text">{{ post.subtitulo|default:"" }}</p>
                         <small>Publicado el {{ post.fecha_creacion|date:"F j, Y" }} por</small>
                         <p class="author-name mb-3">
-                            <a href="" class="h5 text-dark">{{ post.autor }}</a>
+                            <a href="{% url 'perfil_usuario' post.autor %}" class="h5 text-dark">{{ post.autor }}</a>
                         </p>
                         <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-primary">Leer más</a>
                     </div>
