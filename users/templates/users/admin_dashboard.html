@@ -74,7 +74,6 @@
                         <td>{{ post.fecha_creacion|date:"d M Y" }}</td>
                         <td>
                             <a href="{% url 'post_detail' post.pk %}" class="btn btn-sm btn-outline-info">Ver Post</a>
-                            <a href="{% url 'edit_post' post.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="{% url 'delete_post' post.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
                         </td>
                     </tr>
