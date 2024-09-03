@@ -1,23 +1,33 @@
-{% extends 'base/index.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
 
+{% block title %} Iniciar Sesión {% endblock title %}
+{% block titular %} Iniciar Sesión {% endblock titular %}
 
-{% block title %} Iniciar Sesion {% endblock title %}
-
-{% block titular %} Iniciar Sesion {% endblock titular %}
-    
-
-{% block body %}
-<div class="d-flex justify-content-center" style="">
-    <div class="d-flex flex column">
-        <p class="fs-5 fw-bold"> {{ msg_login }}</p>
-            <form action="" method="POST">
-            {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Iniciar sesion" style="border-square: 50px; margin: 5px;"> 
-        </form>
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Iniciar Sesión</h4>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-block w-100">Iniciar sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-{% endblock body %}
-
-{% block cuadros %}{% endblock cuadros %}
+{% endblock contenido %}
