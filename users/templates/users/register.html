@@ -1,22 +1,27 @@
-{% extends 'base/index.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
-
 
 {% block title %} Registro {% endblock title %}
 
 {% block titular %} Crear Usuario {% endblock titular %}
 
-{% block body %}
-
-<div class="d-flex justify-content-center" style="">
-    <div class="d-flex flex column">
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Registrarse" style="border-square: 50px; margin: 5px;" >  
-        </form>
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Crear Usuario</h4>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-block w-100">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-{% endblock body %}
-{% block cuadros %}{% endblock cuadros %}
+{% endblock contenido %}
